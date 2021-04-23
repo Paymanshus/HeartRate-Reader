@@ -11,13 +11,8 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900" rel="stylesheet">
 
     <link rel="stylesheet" href="../static/css/bootstrap.css">
-    <link rel="stylesheet" href="../static/css/flexslider.css">
     <link rel="stylesheet" href="../static/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../static/css/owl.carousel.min.css">
     <link rel="stylesheet" href="../static/css/owl.theme.default.min.css">
-    <link rel="stylesheet" href="../static/css/icofont.css">
-    <link rel="stylesheet" href="../static/css/jquery-ui.css">
-    <link rel="stylesheet" href="../static/css/jQuery.verticalCarousel.css">
     <link rel="stylesheet" href="../static/style.css">
     <link rel="stylesheet" href="../static/responsive.css">
 </head>
@@ -88,7 +83,6 @@
                             <!-- <img src="{{ url_for('upload', filename=filename) }}"> -->
                             <img src="{{ filename }}"> {% elif video_feed %}
                             <img src="{{ url_for('heart_video_feed') }}" alt="Video Stream here, currently not visible" id="video-feed"> {% else %}
-                            <!-- <iframe src="https://www.youtube.com/embed/bM4G1Toe3h0" frameborder="0" allowfullscreen></iframe> -->
                             <center>
                                 <h3>Results will be displayed here</h3>
                             </center>
@@ -101,11 +95,6 @@
     </div>
     <script src="../static/js/jquery-3.1.1.min.js"></script>
     <script src="../static/js/bootstrap.min.js"></script>
-    <script src="../static/js/owl.carousel.min.js"></script>
-    <script src="../static/js/jquery.flexslider.js"></script>
-    <script src="../static/js/jQuery.verticalCarousel.js"></script>
-    <script src="../static/js/jquery-ui.js"></script>
-    <script src="../static/js/active.js"></script>
 </body>
 
 </html>
