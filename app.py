@@ -1,5 +1,5 @@
 import os
-from flask import Flask, request, render_template, flash, redirect, send_from_directory, url_for
+from flask import Flask, request, render_template, flash, redirect, send_from_directory, url_for, Response
 import requests
 
 from bs4 import BeautifulSoup
@@ -12,7 +12,7 @@ import imutils
 import cv2
 
 # FUNCTIONS
-from face_detection.detect_faces_video import video_detector
+from face_detection.detect_faces_video import VideoCamera
 from face_detection.detect_faces_images import image_detector
 
 from werkzeug.serving import run_simple
@@ -40,6 +40,14 @@ net = cv2.dnn.readNetFromCaffe(args['prototxt'], args['model'])
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() \
         in app.config['UPLOAD_EXTENSIONS']
+
+
+def gen(camera):
+    while True:
+        # get camera frame
+        frame = camera.video_detector(args, net)
+        yield (b'--frame\r\n'
+               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
 
 
 # def add_imgpath(image):
@@ -102,6 +110,7 @@ def home_type():
             else:
                 # Make user reupload image
                 return render_template("index.html", image_upload=True)
+
         else:
             print("Else condition executed")
             return render_template("index.html")
@@ -122,40 +131,77 @@ def video_stream():
     return render_template("index.html", video_stream=True)
 
 
-# @app.route('/', methods=['GET', 'POST'])
-# def upload_image():
+@app.route('/video_feed')
+def video_feed():
+    return Response(gen(VideoCamera()),
+                    mimetype='multipart/x-mixed-replace; boundary=frame')
 
-#     # if 'file' not in request.files:
-#     #     print('No file part')
-#     #     flash('No file part')
-#     #     return redirect(request.url)
 
-#     if file.filename == '':
-#         print('No image selected for uploading')
-#         flash('No image selected for uploading')
-#         error = 'No image selected for uploading'
-#         return render_template("index.html", error=error, scroll='scrollable')
+# Switching To Heartbeat Detector
+# @app.route('/heartbeat')
+# def heartbeat():
+#     return render_template("heartbeat.html")
 
-#     if file and allowed_file(file.filename):
-#         filename = secure_filename(file.filename)
-#         filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-#         file.save(filepath)
+@app.route('/heartbeat', methods=['GET', 'POST'])
+def heartbeat():
+    print(request.method)
+    print(request.form)
+    if request.method == 'POST':
+        if 'video-upload' in request.form:
+            # return render_template("index.html", image_upload=True)
 
-#         print('upload_image filename: ' + filename)
-#         # flash('Image successfully uploaded and displayed below')
+            return redirect(url_for('heart_video_upload'))
 
-#         pred = predict_image(filepath)
+        elif 'video-stream' in request.form:
+            # return render_template("index.html", video_page=True)
+            return redirect(url_for('heart_video_stream'))
 
-#         ing_list, recipe = return_details(pred)
-#         # recipe = return_recipe(pred)
+        elif 'video-upload' in request.files:
+            print('Video Request Passed')
 
-#         return render_template('index.html', user_img=filename, pred=pred, scroll='scrollable', ingredients_list=ing_list, recipe=recipe)
-#     else:
-#         error = ('Allowed image types are -> png, jpg, jpeg, gif')
+            uploaded_file = request.files['video-upload']
+            print(uploaded_file)
 
-#         return render_template("index.html", error=error, scroll='scrollable')
+            filename = secure_filename(uploaded_file.filename)
+            if filename != '':
 
-#     return render_template("index.html")
+                video_path = os.path.join(app.config['UPLOAD_PATH'], filename)
+                # add_imgpath(image_path)
+                print(filename)
+
+                uploaded_file.save(video_path)
+                print(os.listdir(app.config['UPLOAD_PATH']))
+
+                # # Saves image to out_path
+                # save_path = image_detector(args, net, image_path, out_path)
+
+                return render_template("heartbeat.html", pred=pred)
+
+            else:
+                # Make user reupload image
+                return render_template("heartbeat.html", video_upload=True)
+    else:
+        return render_template("heartbeat.html")
+
+
+# Recording from Live Video Stream page
+@app.route('/heartbeat/video_stream')
+def heart_video_stream():
+    return render_template('heartbeat.html', video_stream=True)
+
+
+# Recording to be uploaded by user
+@app.route('/video_upload')
+def heart_video_upload():
+    return render_template("heartbeat.html", video_upload=True)
+
+
+# Routing video feed to display in frame
+@app.route('/heartbeat/video_feed')
+def heart_video_feed():
+    return Response(gen_frames(),
+                    mimetype='multipart/x-mixed-replace; boundary=frame')
+
 
 if __name__ == '__main__':
     app.run(debug=True)

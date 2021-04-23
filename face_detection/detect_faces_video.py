@@ -1,8 +1,8 @@
-from imutils.video import VideoStream
+# from imutils.video import VideoStream
 import numpy as np
 import argparse
 import imutils
-import time
+# import time
 import cv2
 
 
@@ -23,70 +23,81 @@ def parse_args_vid(prototxt=True, model=True, confidence=True):
     return args
 
 
-def video_detector(args, net):
+class VideoCamera(object):
+    def __init__(self):
+        # capturing video
+        self.cap = cv2.VideoCapture(0)
 
-    # Initializing video stream
-    print("-------Starting Video Stream--------")
-    # VideoStream using imutils
-    # vs = VideoStream(src=0).start()
-    # time.sleep(2.0)
+    def __del__(self):
+        # releasing camera
+        self.cap.release()
 
-    cap = cv2.VideoCapture(0)
+    def video_detector(self, args, net):
 
-    # Using input from stream
-    while True:
-        # frame = vs.read()
-        ret, frame = cap.read()
-        frame = imutils.resize(frame, width=400)
+        # Initializing video stream
+        # print("-------Starting Video Stream--------")
 
-        # Converting to blob
-        (h, w) = frame.shape[:2]  # Getting dimensions
-        blob = cv2.dnn.blobFromImage(cv2.resize(frame, (300, 300)), 1.0,
-                                     (300, 300), (104.0, 177.0, 123.0))
+        # cap = cv2.VideoCapture(0)
 
-        # Feeding blob through net
-        net.setInput(blob)
-        detections = net.forward()
+        # Using input from stream
+        while True:
+            # frame = vs.read()
+            ret, frame = self.cap.read()
+            # frame = imutils.resize(frame, width=400)
+            frame = cv2.resize(
+                frame, (frame.shape[1], frame.shape[0]), interpolation=cv2.INTER_AREA)
+            # Converting to blob
+            (h, w) = frame.shape[:2]  # Getting dimensions
+            blob = cv2.dnn.blobFromImage(cv2.resize(frame, (300, 300)), 1.0,
+                                         (300, 300), (104.0, 177.0, 123.0))
 
-        # Looping over detections
-        for i in range(0, detections.shape[2]):
-            confidence = detections[0, 0, i, 2]  # confidence of prediction
+            # Feeding blob through net
+            net.setInput(blob)
+            detections = net.forward()
 
-            # ensuring confidence is greater than the minimum confidence
-            if confidence > args["confidence"]:
+            # Looping over detections
+            for i in range(0, detections.shape[2]):
+                confidence = detections[0, 0, i, 2]  # confidence of prediction
 
-                # Finding (x,y) coordinates of bounding box
-                # Conversion to numpy array of format [w, h, w, h]
-                box = detections[0, 0, i, 3:7] * np.array([w, h, w, h])
-                (startX, startY, endX, endY) = box.astype(
-                    "int")  # [startX, startY, endX, endY]
+                # ensuring confidence is greater than the minimum confidence
+                if confidence > args["confidence"]:
 
-                # Drawing bounding box of face and showing probability
-                text = "{:.2f}%".format(confidence * 100)
+                    # Finding (x,y) coordinates of bounding box
+                    # Conversion to numpy array of format [w, h, w, h]
+                    box = detections[0, 0, i, 3:7] * np.array([w, h, w, h])
+                    (startX, startY, endX, endY) = box.astype(
+                        "int")  # [startX, startY, endX, endY]
 
-                # If face detection occurs at the top of the image, then place text at the bottom of the bounding box(y coordinate for text derived from StartY)
-                # Else text placed at the top of the box(y = startY + 10)
-                y = startY - 10 if startY - 10 > 10 else startY + 10
+                    # Drawing bounding box of face and showing probability
+                    text = "{:.2f}%".format(confidence * 100)
 
-                cv2.rectangle(frame, (startX, startY), (endX, endY),
-                              (0, 0, 255), 2)
-                # Syntax: cv2.rectangle(img, pt1, pt2, color, thickness)
+                    # If face detection occurs at the top of the image, then place text at the bottom of the bounding box(y coordinate for text derived from StartY)
+                    # Else text placed at the top of the box(y = startY + 10)
+                    y = startY - 10 if startY - 10 > 10 else startY + 10
 
-                cv2.putText(frame, text, (startX, y),
-                            cv2.FONT_HERSHEY_SIMPLEX, 0.45, (0, 0, 255), 2)
-                # Syntax: cv2.putText(img, text, org, fontFace, fontScale, color)
+                    cv2.rectangle(frame, (startX, startY), (endX, endY),
+                                  (0, 0, 255), 2)
+                    # Syntax: cv2.rectangle(img, pt1, pt2, color, thickness)
 
-        # Show the output image frame
-        cv2.imshow("Frame", frame)
-        key = cv2.waitKey(1) & 0xFF
+                    cv2.putText(frame, text, (startX, y),
+                                cv2.FONT_HERSHEY_SIMPLEX, 0.45, (0, 0, 255), 2)
+                    # Syntax: cv2.putText(img, text, org, fontFace, fontScale, color)
 
-        # Break on pressing 'q' key
-        if key == ord("q") or key == 27:
-            break
+            # encode OpenCV raw frame to jpg and displaying it
+            ret, jpeg = cv2.imencode('.jpg', frame)
+            return jpeg.tobytes()
 
-    cv2.destroyAllWindows()
-    # vs.stop()
-    cap.release()
+            # Show the output image frame
+            # cv2.imshow("Frame", frame)
+            # key = cv2.waitKey(1) & 0xFF
+
+            # Break on pressing 'q' key
+            # if key == ord("q") or key == 27:
+            #     break
+
+        # cv2.destroyAllWindows()
+        # vs.stop()
+        # cap.release()
 
 
 if __name__ == "__main__":
@@ -100,8 +111,6 @@ if __name__ == "__main__":
 
     # Loading Model
     print("-------Loading Model--------")
-    # net = cv2.dnn.readNetFromCaffe(
-    #     args["prototxt"], args["model"])  # Initialized model net USING ARG PARSER
 
     net = cv2.dnn.readNetFromCaffe(prototxt_path, model_path)
 

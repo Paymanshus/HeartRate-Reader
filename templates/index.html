@@ -45,7 +45,7 @@
                                 <li><a href="#">Help</a></li>
                             </ul> -->
                             <div class="sign_up">
-                                <p><a href="#">Switch to HeartBeat Reader</a></p>
+                                <p><a href="{{ url_for('heartbeat') }}">Switch to HeartBeat Reader</a></p>
                                 <!-- TODO: Add Hover-->
                                 <!-- TODO: Change BG-->
                             </div>
@@ -80,7 +80,7 @@
                             {% elif video_stream %}
                             <form id="image_form" action="/" method="POST" enctype="multipart/form-data">
                                 <!-- <input class="button white" href="" id="video-upload" name="video-upload" type="file"></input> -->
-                                <input class="button white" href="" id="submit-button" name="video-stream" type="submit" value="Stream Video"></input>
+                                <input class="button white" href="" id="submit-button" name="video-feed" type="submit" value="Stop Stream"></input>
                             </form>
 
 
@@ -96,7 +96,8 @@
                         <div class="header_video">
                             {% if filename %}
                             <!-- <img src="{{ url_for('upload', filename=filename) }}"> -->
-                            <img src="{{ filename }}"> {% else %}
+                            <img src="{{ filename }}"> {% elif video_stream %}
+                            <img src="{{ url_for('video_feed') }}" alt="Video Stream here, currently not visible" id="video-feed"> {% else %}
                             <!-- <iframe src="https://www.youtube.com/embed/bM4G1Toe3h0" frameborder="0" allowfullscreen></iframe> -->
                             <center>
                                 <h2>Choose an option for detection. It will be displayed here</h2>
@@ -136,45 +137,6 @@
                             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                         </div>
                     </div>
-                    <div class="col-md-12">
-                        <p class="button"><a class="button" href="#">Get started</a></p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section class="user_part">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="useres_part">
-                            <div class="row">
-                                <div class="col-md-3 col-sm-6 user_part_part">
-                                    <div class="user_text">
-                                        <i class="material-icons">business</i>
-                                        <h4>12000+ <br> Business</h4>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 col-sm-6 user_part_part">
-                                    <div class="user_text">
-                                        <i class="material-icons">file_download</i>
-                                        <h4>60000+ <br> Downloads</h4>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 col-sm-6 user_part_part">
-                                    <div class="user_text">
-                                        <i class="material-icons">person</i>
-                                        <h4>30000+ <br>Installs</h4>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 col-sm-6 user_part_part">
-                                    <div class="user_text">
-                                        <i class="material-icons">file_download</i>
-                                        <h4>40000+ <br> Pro Users</h4>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </section>
@@ -189,29 +151,17 @@
                             <ul>
                                 <!-- <li><a href="#">Pri Policy</a></li>
                                 <li><a href="#">About Us</a></li> -->
-                                <li><a href="#">About Us</a></li>
+                                <li><a href="#">Made by Paymanshu Sharma</a></li>
                             </ul>
                         </div>
                     </div>
                     <div class="col-md-8 col-sm-12">
-                        <div class="footer_last_menu">
-                            <div class="row">
-                                <div class="col-md-12 col-sm-12">
-                                    <ul>
-                                        <li><a href="#">Home</a></li>
-                                        <li><a href="#">Service</a></li>
-                                        <li><a href="#">Extension</a></li>
-                                        <li><a href="#">Pricing</a></li>
-                                        <li><a href="#">Help</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
                         <div class="row">
                             <div class="col-md-12 col-sm-12">
                                 <div class="footer_last_icon">
-                                    <p><a href="#"><i class="fa fa-facebook-square" aria-hidden="true"></i></a><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
-                                        <a href="#"><i class="fa fa-dribbble" aria-hidden="true"></i></a><a href="#"><i class="fa fa-behance" aria-hidden="true"></i></a></p>
+                                    <p>
+                                        <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a><a href="#"><i class="fa fa-github" aria-hidden="true"></i></a>
+                                    </p>
                                 </div>
                             </div>
                         </div>

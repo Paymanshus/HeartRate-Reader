@@ -144,6 +144,10 @@ header.header .header_video img {
     /* width: 100%; */
 }
 
+#video-feed {
+    width: 100%;
+}
+
 header.header .header_video h2 {
     position: absolute;
     top: 50%;
