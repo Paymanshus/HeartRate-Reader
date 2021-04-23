@@ -16,8 +16,7 @@
 - [x] Face Detection with Webcam
 - [x] Finger tip heart rate detection on uploaded video
 - [x] Implementing Finger tip heart rate on website
-
-- [ ] Face Detection on Uploaded Video
+- [ ] Running live Heart Rate check from Webcam and live graphs
 - [ ] Use IP Cam to link with phone camera
 
 ## Getting Started

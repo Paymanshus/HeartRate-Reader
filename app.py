@@ -11,6 +11,8 @@ import cv2
 from face_detection.detect_faces_video import VideoCamera
 from face_detection.detect_faces_images import image_detector
 
+from heartbeat.fingertip_heartbeat import detect_heartbeat
+
 from werkzeug.serving import run_simple
 from werkzeug.utils import secure_filename
 
@@ -168,8 +170,8 @@ def heartbeat():
                 uploaded_file.save(video_path)
                 print(os.listdir(app.config['UPLOAD_PATH']))
 
-                # # Saves image to out_path
-                # save_path = image_detector(args, net, image_path, out_path)
+                # Saves plot to out_path
+                save_path = image_detector(args, net, image_path, out_path)
 
                 return render_template("heartbeat.html", pred=pred)
 

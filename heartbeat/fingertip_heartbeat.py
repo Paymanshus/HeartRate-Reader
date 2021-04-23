@@ -5,15 +5,23 @@ import imutils
 import time
 import cv2
 import matplotlib.pyplot as plt
+import os
 
-args = {}
+# args = {}
 # args['confidence'] = 0.6
 
+# Testing videos
 vid_url = "https://192.168.0.14:8080/video"
 vid_path = "test_vids/fingertip_phone2.mp4"
 
+out_path = "test_vids/out"
 
-def detect_heartbeat(vid_path, vid_url=None):
+
+def detect_heartbeat(vid_path, out_path, vid_url=None,):
+
+    # Declaring output path
+    vid_name = os.path.basename(vid_path).split('.')[0]
+    save_path = out_path + '/' + vid_name + '_plot.jpg'
 
     # Initializing video stream
     cap = cv2.VideoCapture(vid_path)
@@ -37,6 +45,10 @@ def detect_heartbeat(vid_path, vid_url=None):
     # Using input from stream
     while True:
         ret, frame = cap.read()
+        if ret is False:
+            cv2.imwrite(save_path, plot_img_np)
+            return save_path
+
         frame = cv2.resize(
             frame, (frame.shape[1], frame.shape[0]), interpolation=cv2.INTER_AREA)
 
@@ -60,6 +72,8 @@ def detect_heartbeat(vid_path, vid_url=None):
         # Display the frames
         cv2.imshow('Crop', frame)
         cv2.imshow('Graph', plot_img_np)
+        cv2.imwrite(save_path, plot_img_np)
+
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
 
@@ -87,9 +101,12 @@ def detect_heartbeat(vid_path, vid_url=None):
         #     break
 
     cv2.destroyAllWindows()
-    video.release()
+    cap.release()
+
+    return save_path
 
 
 if __name__ == "__main__":
 
-    detect_heartbeat(vid_path)
+    save_path = detect_heartbeat(vid_path, out_path)
+    print(save_path)
