@@ -10,23 +10,24 @@ args = {}
 # args['confidence'] = 0.6
 
 vid_url = "https://192.168.0.14:8080/video"
-vid_path = "test_vids/fingertip_phone1.mp4"
+vid_path = "test_vids/fingertip_phone2.mp4"
 
 
 def process_video(args):
 
     # Initializing video stream
-    video = cv2.VideoCapture(0)
-    video.open(vid_url)
+    video = cv2.VideoCapture(vid_path)
+    # video.open(vid_url)
 
     # Using input from stream
     while True:
         ret, frame = video.read()
-        frame = imutils.resize(frame, width=400)
+        frame = cv2.resize(
+            frame, (frame.shape[1], frame.shape[0]), interpolation=cv2.INTER_AREA)
 
-        # (h, w) = frame.shape[:2]  # Getting dimensions
+        b, g, r = cv2.split(frame)
 
-        # gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        cv2.imshow("red", r)
 
         # FFT
         # dft = cv2.dft(np.float32(gray), flags=cv2.DFT_COMPLEX_OUTPUT)
@@ -59,4 +60,4 @@ def process_video(args):
 
 if __name__ == "__main__":
 
-    video_detector(args)
+    process_video(args)
