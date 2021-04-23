@@ -56,7 +56,7 @@
                     <div class="col-md-6">
                         <div class="text">
                             <h3>Face Detector</h3>
-                            <h6>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamc </h6>
+                            <h6>Choose an option for facial detection: either from an uploaded image or via a video stream from your webcam</h6>
 
                             {% if image_upload %}
                             <form id="image_form" action="/" method="POST" enctype="multipart/form-data">
@@ -100,7 +100,7 @@
                             <img src="{{ url_for('video_feed') }}" alt="Video Stream here, currently not visible" id="video-feed"> {% else %}
                             <!-- <iframe src="https://www.youtube.com/embed/bM4G1Toe3h0" frameborder="0" allowfullscreen></iframe> -->
                             <center>
-                                <h2>Choose an option for detection. It will be displayed here</h2>
+                                <h3>Results will be displayed here</h3>
                             </center>
                             {% endif %}
                         </div>
@@ -108,67 +108,7 @@
                 </div>
             </div>
         </header>
-        <section class="project">
-            <div class="text">
-                <h2>Easy & Useful</h2>
-                <h4>Project Management Tool</h4>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud </p>
-            </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-4 project_icon">
-                        <div class="single_project">
-                            <i class="icofont icofont-tasks-alt"></i>
-                            <h3><a href="#">Title Goes Here</a></h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                        </div>
-                    </div>
-                    <div class="col-md-4 project_icon">
-                        <div class="single_project">
-                            <i class="icofont icofont-team"></i>
-                            <h3><a href="#">Title Goes Here</a></h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                        </div>
-                    </div>
-                    <div class="col-md-4 project_icon">
-                        <div class="single_project">
-                            <i class="icofont icofont-worker"></i>
-                            <h3><a href="#">Title Goes Here</a></h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <footer class="footer">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-4 col-sm-12">
-                        <div class="footer-logo">
-                            <a href="#"><img src="../static/img/site-logo.png" alt=""></a>
-                        </div>
-                        <div class="footer_first_menu">
-                            <ul>
-                                <!-- <li><a href="#">Pri Policy</a></li>
-                                <li><a href="#">About Us</a></li> -->
-                                <li><a href="#">Made by Paymanshu Sharma</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-md-8 col-sm-12">
-                        <div class="row">
-                            <div class="col-md-12 col-sm-12">
-                                <div class="footer_last_icon">
-                                    <p>
-                                        <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a><a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a><a href="#"><i class="fa fa-github" aria-hidden="true"></i></a>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
+
     </div>
     <script src="../static/js/jquery-3.1.1.min.js"></script>
     <script src="../static/js/bootstrap.min.js"></script>

@@ -7,6 +7,15 @@ h2 {
     text-transform: uppercase;
 }
 
+h3 {
+    color: #fff;
+    font-family: "Raleway", sans-serif;
+    /* font-weight: 600; */
+    letter-spacing: 1px;
+    line-height: 65px;
+    text-transform: uppercase;
+}
+
 header.header {
     background-image: url("../static/img/camera.png");
     background-repeat: no-repeat;
@@ -148,11 +157,13 @@ header.header .header_video img {
     width: 100%;
 }
 
-header.header .header_video h2 {
+
+/* header.header .header_video h3 {
     position: absolute;
     top: 50%;
-    margin-right: 2%;
-}
+    left: 20%;
+
+*/
 
 section.project {
     margin-bottom: 100px;
