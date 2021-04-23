@@ -2,10 +2,6 @@ import os
 from flask import Flask, request, render_template, flash, redirect, send_from_directory, url_for, Response
 import requests
 
-from bs4 import BeautifulSoup
-import urllib.request as urllib
-from urllib.request import urlopen
-
 # CV
 from imutils.video import VideoStream
 import imutils

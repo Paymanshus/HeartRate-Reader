@@ -17,7 +17,9 @@ def process_video(args):
 
     # Initializing video stream
     video = cv2.VideoCapture(vid_path)
-    # video.open(vid_url)
+
+    if vid_url:
+        video.open(vid_url)
 
     # Using input from stream
     while True:
