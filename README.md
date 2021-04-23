@@ -14,7 +14,8 @@
 - [x] Image Display on Web App
 - [x] Face Detection on Uploaded Image
 - [x] Face Detection with Webcam
-- [ ] Finger tip heart rate detection on uploaded video
+- [x] Finger tip heart rate detection on uploaded video
+- [x] Implementing Finger tip heart rate on website
 
 - [ ] Face Detection on Uploaded Video
 - [ ] Use IP Cam to link with phone camera
@@ -23,7 +24,7 @@
 
 To get a local copy up and running follow these simple steps.
 
-### Installation
+### Running the app
 
 1. Clone the repo
    ```
@@ -39,3 +40,14 @@ To get a local copy up and running follow these simple steps.
    ```
    python app.py
    ```
+
+### Running the HeartRate Reader Graphs
+
+- To get a live graph of the heart beat reading:
+
+  ```
+  cd heartbeat
+  python fingertip_heartbeat.py
+  ```
+
+  - Currently runs on sample video from test_vids folder
