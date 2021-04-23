@@ -60,6 +60,7 @@ app.config['UPLOAD_PATH'] = 'static/img/uploads'
 # app.config['EXPLAIN_TEMPLATE_LOADING'] = True
 
 out_path = 'static/img/outputs'
+vid_out_path = 'static/img/vid_outputs'
 
 
 @app.route('/')
@@ -163,20 +164,20 @@ def heartbeat():
             filename = secure_filename(uploaded_file.filename)
             if filename != '':
 
-                video_path = os.path.join(app.config['UPLOAD_PATH'], filename)
+                vid_path = os.path.join(app.config['UPLOAD_PATH'], filename)
                 # add_imgpath(image_path)
                 print(filename)
 
-                uploaded_file.save(video_path)
+                uploaded_file.save(vid_path)
                 print(os.listdir(app.config['UPLOAD_PATH']))
 
                 # Saves plot to out_path
-                save_path = image_detector(args, net, image_path, out_path)
-
-                return render_template("heartbeat.html", pred=pred)
+                save_path = detect_heartbeat(vid_path, vid_out_path)
+                # TODO: Add loader, live graph
+                return render_template("heartbeat.html", filename=save_path)
 
             else:
-                # Make user reupload image
+                # Make user reupload video
                 return render_template("heartbeat.html", video_upload=True)
     else:
         return render_template("heartbeat.html")

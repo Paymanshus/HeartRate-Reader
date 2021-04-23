@@ -55,8 +55,8 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="text">
-                            <h3>HeartBeat Reader</h3>
-                            <h6>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamc </h6>
+                            <h3>Heart Rate Reader</h3>
+                            <h6>Upload a video of your fingertip placed on top of your phone camera (preferably with its flashlight on). </h6>
 
 
                             {% if video_upload %}
@@ -90,7 +90,7 @@
                             <img src="{{ url_for('heart_video_feed') }}" alt="Video Stream here, currently not visible" id="video-feed"> {% else %}
                             <!-- <iframe src="https://www.youtube.com/embed/bM4G1Toe3h0" frameborder="0" allowfullscreen></iframe> -->
                             <center>
-                                <h2>Choose an option for detection. It will be displayed here</h2>
+                                <h3>Results will be displayed here</h3>
                             </center>
                             {% endif %}
                         </div>
