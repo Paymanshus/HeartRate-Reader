@@ -34,6 +34,7 @@ def detect_heartbeat(vid_path, out_path, vid_url=None,):
     # x, y, w, h = 800, 500, 100, 100
     # x, y, w, h = 950, 300, 100, 100
 
+    # Creating an array to store average brightness values of video frames
     heartbeat_count = 128
     heartbeat_values = [0]*heartbeat_count
     heartbeat_times = [time.time()]*heartbeat_count
@@ -47,6 +48,7 @@ def detect_heartbeat(vid_path, out_path, vid_url=None,):
         ret, frame = cap.read()
         if ret is False:
             cv2.imwrite(save_path, plot_img_np)
+            cv2.waitKey(1)
             return save_path
 
         frame = cv2.resize(
@@ -56,6 +58,9 @@ def detect_heartbeat(vid_path, out_path, vid_url=None,):
         b, g, r = cv2.split(frame)
 
         # crop_img = r[y:y + h, x:x + w]
+
+        # Attempting to reduce noise and smoothen the image by apqplying Gaussian Blur on frame
+        blur = cv2.GaussianBlur(r, (5, 5), 0)
 
         # Update the data and timestamps
         heartbeat_values = heartbeat_values[1:] + [np.average(frame)]
@@ -70,7 +75,8 @@ def detect_heartbeat(vid_path, out_path, vid_url=None,):
             fig.canvas.get_width_height()[::-1] + (3,))
         plt.cla()
         # Display the frames
-        cv2.imshow('Crop', frame)
+        cv2.imshow('Blur', blur)
+        cv2.imshow('Image', frame)
         cv2.imshow('Graph', plot_img_np)
         cv2.imwrite(save_path, plot_img_np)
 
